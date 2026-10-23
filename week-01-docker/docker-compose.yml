@@ -1,8 +1,8 @@
-name: node_app
+name: docker
 
 services:
   app:
-    build: .
+    image: jpiquet/docker-app:v1.0
     container_name: node
     ports:
       - 3000:3000

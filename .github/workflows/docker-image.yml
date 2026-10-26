@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    # Clone repository
+    - uses: actions/checkout@v4
+
+    - name: Build the Docker image
+      run: docker build week-01-docker/. --tag jpiquet/docker-app:v1
+
+    - name: Login to DockerHub
+      env: 
+        LOGIN: ${{ secrets.USER_DOCKER_HUB }}
+        PASS: ${{ secrets.PASS_DOCKER_HUB }}
+      run: docker login -u LOGIN -p PASS
+
+    - name: Push to private repo
+      run: docker push jpiquet/docker-app:v1

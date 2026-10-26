@@ -6,7 +6,6 @@ Difficulté: Comprendre ce qu'est un registery local.
 
 Pour pull l'image officiel de registry: `docker run -d -p 5000:5000 --name registry registry:2.7`
 
-
 The local registry purpose is to be able to push an image localy and share it with you team for exemple without pushing it on DockerHub and keep it locally.
 
 We have to tag the image with: `docker tag ubuntu localhost:5000/ubuntu`

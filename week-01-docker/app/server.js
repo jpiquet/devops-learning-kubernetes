@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const { Pool } = require('pg');
-
+//modif for CI
 const app = express();
 app.use(cors());
 app.use(morgan('tiny'));

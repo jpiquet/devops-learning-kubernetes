@@ -21,7 +21,7 @@ jobs:
       env: 
         LOGIN: ${{ secrets.USER_DOCKER_HUB }}
         PASS: ${{ secrets.PASS_DOCKER_HUB }}
-      run: docker login -u LOGIN -p PASS
+      run: docker login -u $LOGIN --password-stdin $PASS
 
     - name: Push to private repo
       run: docker push jpiquet/docker-app:${{ github.sha }}

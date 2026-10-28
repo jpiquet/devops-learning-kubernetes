@@ -1,0 +1,22 @@
+name: docker
+
+services:
+  app:
+    image: jpiquet/docker-app:v1.0
+    container_name: node
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URL: postgres://${DB_USER}:${DB_PWD}@db:5432/${DB_NAME}
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PWD}
+    volumes:
+     - db_volume:/var/lib/postgresql/data
+
+volumes:
+  db_volume:

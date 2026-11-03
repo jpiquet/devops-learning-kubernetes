@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Visites : <span id="count">...</span></h1>
+  <script>
+    fetch('http://localhost:3000/visits')
+      .then(r => r.json())
+      .then(d => document.getElementById('count').textContent = d.visits)
+      .catch(e => document.getElementById('count').textContent = 'erreur : ' + e.message);
+  </script>
+</body>
+</html>

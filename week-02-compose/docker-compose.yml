@@ -12,16 +12,34 @@ services:
     networks:
      - frontend
      - backend
+    healthcheck:
+     test: ["CMD-SHELL", "wget -q --spider http://localhost:3000/health"]
+     interval: 15s
+     timeout: 5s
+     retries: 3
+     start_period: 20s
+     start_interval: 1s
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    restart: unless-stopped
 
   front:
     image: nginx:1.30-alpine@sha256:0e52bd054126cdc040b1276c0af347aeb02a41b9cfe305d6094767ac30e97949
     container_name: nginx
     ports:
       - 8080:80
+    # ro pour mettre nginx en read only car nginx n'a pas besoin d'ecrire dans front/
     volumes:
-      - ./front/:/usr/share/nginx/html
+      - ./front/:/usr/share/nginx/html:ro
     networks:
      - frontend
+    depends_on:
+      app:
+        condition: service_healthy
+        restart: true
+    restart: unless-stopped
 
   db:
     image: postgres:17
@@ -33,6 +51,14 @@ services:
      - db_volume:/var/lib/postgresql/data
     networks:
      - backend
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+      start_interval: 1s
+    restart: unless-stopped
 
 volumes:
   db_volume:
